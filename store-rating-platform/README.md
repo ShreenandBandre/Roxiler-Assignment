@@ -178,7 +178,7 @@ Once instantiation finishes, you can map the entire ecosystem live through these
 ### Demo Folder Structure 
 
 ## Backend
-
+```text
 backend/
 ├── prisma/
 │   ├── schema.prisma          # User, Store, Rating models + Role enum
@@ -224,10 +224,10 @@ backend/
 ├── .env                        # gitignored
 ├── .env.example                # Checked-in template
 └── package.json
-
+```
 
 ## Frontend 
-
+```text
 frontend/
 ├── public/
 ├── src/
@@ -251,7 +251,7 @@ frontend/
 ├── .env
 └── package.json
 
-
+```
 ---
 
 ##  Architectural Summary & Conclusion
