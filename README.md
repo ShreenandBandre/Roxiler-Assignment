@@ -181,70 +181,115 @@ Once instantiation finishes, you can map the entire ecosystem live through these
 
 backend/
 ├── prisma/
-│   ├── schema.prisma          # User, Store, Rating models + Role enum
-│   └── migrations/             # Auto-generated migration SQL files
+│   ├── schema.prisma              # User, Store, Rating models + Role enum
+│   └── migrations/                # Auto-generated migration SQL files
+│
 ├── src/
 │   ├── config/
-│   │   ├── index.js            # Env vars validated (zod) & exported
-│   │   ├── logger.js           # Winston logger (console + file)
-│   │   └── prisma.js           # Prisma client singleton
+│   │   ├── index.js               # Environment variables validation (Zod)
+│   │   ├── logger.js              # Winston logger (console + file transports)
+│   │   └── prisma.js              # Prisma client singleton instance
+│   │
 │   ├── controllers/
 │   │   ├── auth.controller.js
 │   │   ├── admin.controller.js
 │   │   ├── store.controller.js
 │   │   ├── rating.controller.js
 │   │   └── storeOwner.controller.js
+│   │
 │   ├── services/
-│   │   ├── auth.service.js     # Business logic — all DB calls here
+│   │   ├── auth.service.js        # Business logic & database operations
 │   │   ├── admin.service.js
 │   │   ├── store.service.js
 │   │   ├── rating.service.js
 │   │   └── storeOwner.service.js
+│   │
 │   ├── middlewares/
-│   │   ├── auth.middleware.js  # JWT verify + requireRole() guard
-│   │   ├── validate.middleware.js  # zod schema validation
+│   │   ├── auth.middleware.js     # JWT verification & role-based authorization
+│   │   ├── validate.middleware.js # Request validation using Zod schemas
 │   │   ├── cors.middleware.js
-│   │   ├── error.middleware.js
-│   │   └── req.middleware.js   # Request-ID injection
+│   │   ├── error.middleware.js    # Global error handling
+│   │   └── req.middleware.js      # Request ID injection
+│   │
 │   ├── routes/
 │   │   ├── auth.route.js
 │   │   ├── admin.route.js
 │   │   ├── store.route.js
 │   │   ├── rating.route.js
 │   │   ├── storeOwner.route.js
-│   │   └── index.js            # Mounts all routers on /api
+│   │   └── index.js               # Mounts all routes under /api
+│   │
 │   ├── validators/
-│   │   └── *.schema.js         # zod schemas matching spec rules
+│   │   └── *.schema.js            # Zod schemas for request validation
+│   │
 │   └── utils/
-│       ├── asyncHandler.js     # Wraps async route handlers
-│       ├── error.js            # Custom AppError classes
-│       └── index.js            # Re-exports
-├── index.js                    # Express app entry point
+│       ├── asyncHandler.js        # Async route wrapper
+│       ├── error.js               # Custom AppError classes
+│       └── index.js               # Utility exports
+│
+├── index.js                       # Application entry point
 ├── Dockerfile
-├── .env                        # gitignored
-├── .env.example                # Checked-in template
+├── .env                           # Environment variables (gitignored)
+├── .env.example                   # Environment template
 └── package.json
-
 
 ## Frontend 
 
 frontend/
 ├── public/
+│
 ├── src/
-│   ├── api/                    # axios instance + per-resource API calls
+│   ├── api/                       # Axios instance & API service modules
+│   │
 │   ├── assets/
-│   ├── components/             # Navbar, DataTable, Modal, RatingStars, FormInput
-│   ├── context/                # AuthContext (user, token, role)
-│   ├── hooks/                  # useAuth, useDebounce, useFetch
+│   │
+│   ├── components/
+│   │   ├── Navbar
+│   │   ├── DataTable
+│   │   ├── Modal
+│   │   ├── RatingStars
+│   │   └── FormInput
+│   │
+│   ├── context/
+│   │   └── AuthContext            # Authentication state management
+│   │
+│   ├── hooks/
+│   │   ├── useAuth
+│   │   ├── useDebounce
+│   │   └── useFetch
+│   │
 │   ├── pages/
-│   │   ├── auth/                # Login.jsx, Signup.jsx
-│   │   ├── admin/                # Dashboard, Users, Stores, AddUser, AddStore, UserDetail
-│   │   ├── user/                 # StoreList.jsx, UpdatePassword.jsx
-│   │   └── storeOwner/           # Dashboard.jsx
-│   ├── routes/                  # AppRoutes.jsx, ProtectedRoute, RoleRoute
-│   ├── utils/                    # validators.js, constants.js
+│   │   ├── auth/
+│   │   │   ├── Login.jsx
+│   │   │   └── Signup.jsx
+│   │   │
+│   │   ├── admin/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Users.jsx
+│   │   │   ├── Stores.jsx
+│   │   │   ├── AddUser.jsx
+│   │   │   ├── AddStore.jsx
+│   │   │   └── UserDetail.jsx
+│   │   │
+│   │   ├── user/
+│   │   │   ├── StoreList.jsx
+│   │   │   └── UpdatePassword.jsx
+│   │   │
+│   │   └── storeOwner/
+│   │       └── Dashboard.jsx
+│   │
+│   ├── routes/
+│   │   ├── AppRoutes.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   └── RoleRoute.jsx
+│   │
+│   ├── utils/
+│   │   ├── validators.js
+│   │   └── constants.js
+│   │
 │   ├── App.jsx
 │   └── main.jsx
+│
 ├── tailwind.config.js
 ├── postcss.config.js
 ├── Dockerfile
