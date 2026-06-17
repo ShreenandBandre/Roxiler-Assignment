@@ -1,0 +1,71 @@
+services:
+  
+  db:
+    image: postgres:16-alpine
+    container_name: srp-postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: srp_admin
+      POSTGRES_PASSWORD: srp_secure_password
+      POSTGRES_DB: store_rating_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U srp_admin -d store_rating_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  
+  backend:
+    build: ./backend
+    container_name: srp-backend-api
+    restart: always
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: "postgresql://srp_admin:srp_secure_password@db:5432/store_rating_db?schema=public"
+#provided hardcoded for esay use.      
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app                
+      - /app/node_modules             
+    depends_on:
+      db:
+        condition: service_healthy
+
+  
+  frontend:
+    build: ./frontend
+    container_name: srp-frontend-app
+    restart: always
+    ports:
+      - "3000:80" 
+    depends_on:
+      - backend
+
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: srp-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@srp.com
+      PGADMIN_DEFAULT_PASSWORD: admin_secure_password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80" 
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./servers.json:/pgadmin4/servers.json  
+#server.json file shared for easy working
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  pgadmin_data:

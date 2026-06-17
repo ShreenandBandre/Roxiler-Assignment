@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Store Rating System Matrix",
+      "Group": "Servers",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "store_rating_db",
+      "Username": "srp_admin",
+      "SSLMode": "prefer",
+      "Comment": "Main database pipeline stream node"
+    }
+  }
+}
