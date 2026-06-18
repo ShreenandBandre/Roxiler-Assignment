@@ -165,6 +165,11 @@ docker logs -f srp-backend-api
 
 # Execute manual database seeding overriding automated triggers
 docker exec -it srp-backend-api npx prisma db seed
+
+# backend/.env
+PORT=5000  //backend port
+DATABASE_URL="postgresql://srp_admin:srp_secure_password@db:5432/store_rating_db?schema=public" //must be same that you are going to use in db on docker
+JWT_SECRET="Generate_64bit_long_secret"  //for session validation via backend
 ```
 ### Live Port Portals (Exposed Access Points)
 Once instantiation finishes, you can map the entire ecosystem live through these ports:
